@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindset Quiz - Test Your Growth Potential</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f39c12, #f1c40f);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            width: 70%;
+            padding: 30px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        h1 {
+            color: #e74c3c;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .intro p {
+            color: #2c3e50;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        #options button {
+            background-color: #ecf0f1;
+            margin: 10px 0;
+            font-size: 1.1rem;
+            padding: 12px;
+            width: 80%;
+            border: 2px solid #3498db;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease, transform 0.3s ease;
+        }
+
+        #options button:hover {
+            background-color: #3498db;
+            color: white;
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        #options button:nth-child(1) {
+            background-color: #ff6347;
+            transition: background-color 0.3s ease;
+        }
+
+        #options button:nth-child(2) {
+            background-color: #ff9f00;
+            transition: background-color 0.3s ease;
+        }
+
+        #options button:nth-child(3) {
+            background-color: #2ecc71;
+            transition: background-color 0.3s ease;
+        }
+
+        #options button:nth-child(4) {
+            background-color: #8e44ad;
+            transition: background-color 0.3s ease;
+        }
+
+        #results {
+            font-size: 1.3rem;
+            color: #2c3e50;
+        }
+
+        #results p {
+            margin: 15px 0;
+        }
+
+        #question-container {
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #34495e;
+            animation: slideIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateX(-50%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        .bounce {
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .result-header {
+            font-size: 2rem;
+            color: #27ae60;
+            margin-bottom: 15px;
+        }
+
+        .result-text {
+            font-size: 1.2rem;
+            color: #2c3e50;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="intro" id="intro">
+            <h1>Welcome to the Mindset Quiz!</h1>
+            <p class="bounce">This quiz will help you evaluate your mindset and potential for success. Answer the following questions to find out how you approach challenges, growth, and your overall mindset.</p>
+            <button onclick="startQuiz()">Start Quiz</button>
+        </div>
+
+        <div id="quiz-container" style="display: none;">
+            <div id="question-container"></div>
+            <div id="options"></div>
+        </div>
+
+        <div id="results" style="display: none;">
+            <h2 class="result-header">Quiz Results</h2>
+            <p>Your score: <span id="percentage"></span>%</p>
+            <p id="result-message" class="result-text"></p>
+            <p id="improvement-message" class="result-text"></p>
+            <button onclick="restartQuiz()">Restart Quiz</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { question: "Do you set clear, actionable goals?", options: ["Always", "Sometimes", "Rarely", "Never"], answer: 1 },
+            { question: "Do you embrace challenges?", options: ["Always", "Often", "Sometimes", "Never"], answer: 1 },
+            { question: "How do you handle failure?", options: ["Learn from it", "Feel discouraged", "Ignore it", "Avoid it"], answer: 1 },
+            { question: "Do you believe in your ability to improve?", options: ["Strongly agree", "Agree", "Neutral", "Disagree"], answer: 1 },
+            { question: "How often do you take action towards your goals?", options: ["Every day", "Every week", "Rarely", "Never"], answer: 1 },
+            { question: "Do you keep a positive mindset when facing obstacles?", options: ["Always", "Sometimes", "Rarely", "Never"], answer: 1 },
+            { question: "How do you react when others succeed?", options: ["Feel motivated", "Feel indifferent", "Feel jealous", "Feel frustrated"], answer: 1 },
+            { question: "Do you invest in learning new skills?", options: ["Regularly", "Sometimes", "Rarely", "Never"], answer: 1 },
+            { question: "Do you believe hard work leads to success?", options: ["Strongly agree", "Agree", "Neutral", "Disagree"], answer: 1 },
+            { question: "How often do you evaluate your progress?", options: ["Always", "Often", "Sometimes", "Rarely", "Never"], answer: 1 },
+            { question: "Do you celebrate small wins?", options: ["Always", "Sometimes", "Rarely", "Never"], answer: 1 },
+            { question: "How open are you to feedback?", options: ["Very open", "Somewhat open", "Neutral", "Somewhat closed", "Very closed"], answer: 1 },
+            { question: "Do you adapt well to changing circumstances?", options: ["Always", "Often", "Sometimes", "Rarely", "Never"], answer: 1 },
+            { question: "Do you actively seek opportunities for growth?", options: ["Always", "Sometimes", "Rarely", "Never"], answer: 1 },
+            { question: "How often do you push yourself outside your comfort zone?", options: ["Frequently", "Occasionally", "Rarely", "Never"], answer: 1 },
+            { question: "Do you take ownership of your failures?", options: ["Always", "Sometimes", "Rarely", "Never"], answer: 1 },
+            { question: "Do you believe in the power of consistency?", options: ["Strongly agree", "Agree", "Neutral", "Disagree"], answer: 1 },
+            { question: "How often do you review your goals?", options: ["Regularly", "Occasionally", "Rarely", "Never"], answer: 1 },
+            { question: "Do you stay focused on your long-term vision?", options: ["Always", "Sometimes", "Rarely", "Never"], answer: 1 },
+            { question: "Do you surround yourself with like-minded individuals?", options: ["Always", "Sometimes", "Rarely", "Never"], answer: 1 }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function startQuiz() {
+            document.querySelector('.intro').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+            showQuestion(currentQuestion);
+        }
+
+        function showQuestion(index) {
+            const question = questions[index];
+            document.getElementById('question-container').innerHTML = `<p>${question.question}</p>`;
+            let optionsHTML = '';
+            question.options.forEach((option, i) => {
+                optionsHTML += `<button onclick="submitAnswer(${i + 1})">${option}</button>`;
+            });
+            document.getElementById('options').innerHTML = optionsHTML;
+        }
+
+        function submitAnswer(answer) {
+            if (answer === questions[currentQuestion].answer) {
+                score += 1;
+            }
+
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion(currentQuestion);
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            const percentage = (score / questions.length) * 100;
+            document.getElementById('percentage').innerText = percentage.toFixed(2);
+
+            let resultMessage = '';
+            let improvementMessage = '';
+
+            if (percentage >= 80) {
+                resultMessage = "Excellent! You're on the right path.";
+                improvementMessage = "Keep up the great work!";
+            } else if (percentage >= 60) {
+                resultMessage = "Good job! But there's room for improvement.";
+                improvementMessage = "Focus on building stronger habits.";
+            } else {
+                resultMessage = "You have a growth mindset, but there's a lot to work on.";
+                improvementMessage = "Stay persistent and challenge yourself further!";
+            }
+
+            document.getElementById('result-message').innerText = resultMessage;
+            document.getElementById('improvement-message').innerText = improvementMessage;
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('results').style.display = 'none';
+            document.querySelector('.intro').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
